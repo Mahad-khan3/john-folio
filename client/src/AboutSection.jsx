@@ -161,7 +161,7 @@ function PointWrap({ start }) {
   );
 }
 
-function Popup({ year, heading, text, image }) {
+function Popup({ year, heading, text }) {
   return (
     <div className="popup-card-wrap">
       <div className="popup-card-item">
@@ -177,20 +177,6 @@ function Popup({ year, heading, text, image }) {
           </div>
           <div className="popup-card-bottom-item">
             <div className="about-card-img-wrap">
-              {image && (
-                <img
-                  src="/mahadlast.png"
-                  loading="lazy"
-                  alt="Johnsmith"
-                  className="about-card-img"
-                  style={{
-                    aspectRatio: "1/1",
-                    objectFit: "cover",
-                    objectPosition: "top",
-                    borderRadius: "50%",
-                  }}
-                />
-              )}
               <h4 className="popup-heading">{heading}</h4>
               <p>{text}</p>
             </div>
@@ -277,27 +263,6 @@ function Card({ c }) {
       <div className="about-card-bottom-layout">
         {c.withImage && (
           <div className="about-card-bottom-layout-left">
-            <div className="about-card-img-wrap">
-              <img
-                className="about-card-img"
-                src="/mahadlast.png"
-                data-tl-trigger=".about-card-container"
-                alt="Johnsmith"
-                data-tl-desktop=""
-                data-tl-type="trigger"
-                data-tl-to="{'y': '0%', 'opacity': 1, 'scale': 1, 'duration': 0.5, 'delay': 0.45, 'ease': 'power3.inOut'}"
-                data-tl-start={c.start}
-                loading="lazy"
-                data-tl-from={CARD_FROM}
-                style={{
-                  aspectRatio: "1/1",
-                  objectFit: "cover",
-                  objectPosition: "top",
-                  borderRadius: "12px",
-                }}
-              />
-              <div className="last-year-active-dot"></div>
-            </div>
             <p
               data-tl-desktop=""
               data-tl-type="trigger"
@@ -319,7 +284,6 @@ function Card({ c }) {
           year={c.year}
           heading={c.heading}
           text={c.text}
-          image={c.withImage}
         />
       </div>
     </div>

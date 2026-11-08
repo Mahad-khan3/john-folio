@@ -20,20 +20,6 @@ export default function AboutLast() {
         </p>
         <div className="about-card-bottom-layout">
           <div className="about-card-bottom-layout-left">
-            <div className="about-card-img-wrap">
-              <img
-                className="about-card-img"
-                src="/mahadlast.png"
-                alt="Johnsmith"
-                loading="lazy"
-                style={{
-                  aspectRatio: "1/1",
-                  objectFit: "cover",
-                  objectPosition: "top",
-                  borderRadius: "50%",
-                }}
-              />
-            </div>
             <p className="about-card-bottom-text">
               @johnsmith
               <br />
