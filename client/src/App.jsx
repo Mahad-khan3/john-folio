@@ -35,7 +35,6 @@ const NAV_ITEMS = [
    tracks whichever section is in view) and must not be counted in the "Links"
    header. Same address the hero panel uses. */
 const CONTACT_ITEMS = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mahad-khan-1a26a637b/', icon: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V9h4v1.5A6 6 0 0 1 16 8zM2 9h4v12H2zM4 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4z' },
   { label: 'Gmail', href: 'mailto:johnsmith@gmail.com', icon: 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM22 6l-10 7L2 6' },
 ]
 
@@ -377,7 +376,7 @@ function App() {
               })}
             </nav>
 
-            {/* contact row — LinkedIn / Gmail side by side, above Book a Call.
+            {/* contact row — Gmail, above Book a Call.
                 shrink-0 so the nav above keeps the leftover height and scrolls. */}
             <div className="flex shrink-0 gap-2 px-2 pb-1">
               {CONTACT_ITEMS.map(({ label, href, icon }) => (

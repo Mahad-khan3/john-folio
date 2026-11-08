@@ -625,7 +625,7 @@ export default function Hero() {
              only — no sidebar. */}
 <aside className="h-panel absolute left-[1vw] top-[0.9vw] bottom-[0.9vw] my-auto z-[2] w-[14.5vw] h-fit max-h-[calc(100vh-1.8vw)] overflow-y-auto overflow-x-hidden hidden md:flex flex-col gap-[0.6vw] py-[0.8vw]">
 
-          {/* block 1 — logo chip (the flying logo lands here) + paragraph + linkedin */}
+          {/* block 1 — logo chip (the flying logo lands here) + paragraph */}
           <div className="h-block relative p-[0.6vw]">
             <div className="flex items-start justify-between gap-[0.6vw]">
               {/* the JOHNSMITH chip's slot. The flying logo is tweened to this
@@ -640,7 +640,6 @@ export default function Hero() {
                 <div data-slot="logo" className="w-full h-full" />
                 <span className="h-reg">r</span>
               </div>
-              <a href="https://www.linkedin.com/in/mahad-khan-1a26a637b/" target="_blank" rel="noreferrer" className="h-panel-fade h-social pointer-events-auto shrink-0" aria-label="linkedin">in</a>
             </div>
             <p className="h-panel-fade h-panel-text">Working closely with your team to create Webflow experiences that blend creative thinking, technical precision, and lasting impact.</p>
           </div>
