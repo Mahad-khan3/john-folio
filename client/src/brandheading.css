@@ -1,0 +1,63 @@
+.brand_section {
+  --brand-font: "Tr 3 A", "Helvetica Now Display", Arial, sans-serif;
+  --green: #00a896;
+
+  /* ===== LEFT PANEL SIZE (kept in sync with cta.css / about.css) ===== */
+  --panel-w: 360px;
+  --panel-gap: 24px;
+  --brand-gutter: clamp(16px, 2.5vw, 40px);
+
+  /* the free area to the right of the fixed panel */
+  --brand-inset: calc(var(--panel-w) + var(--panel-gap));
+/* "JOHNSMITH" runs about 3.7em wide in this face, so 1/4 of the free area keeps
+   the word noticeably narrower than the old full-bleed wordmark */
+  --brand-size: clamp(48px, calc((100vw - var(--brand-inset) - var(--brand-gutter)) / 4), 280px);
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: clamp(48px, 6vw, 110px) var(--brand-gutter) clamp(48px, 6vw, 110px)
+    var(--brand-inset);
+  background: transparent;
+}
+
+.brand_heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0;
+  font-family: var(--brand-font);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateX(-2vw);
+}
+
+.brand_heading .brand_name {
+  display: block;
+  font-size: var(--brand-size);
+  color: var(--green);
+}
+
+/* small mark sitting on the top edge, right after the last letter */
+.brand_heading .brand_mark {
+  display: block;
+  margin-left: 0.03em;
+  font-size: calc(var(--brand-size) * 0.2);
+  font-weight: 950;
+  letter-spacing: 0;
+  color: var(--green);
+  transform: translateY(0.15em);
+}
+
+/* ---------- tablet + mobile: no fixed panel, heading owns the full width ---------- */
+@media (max-width: 991px) {
+  .brand_section {
+    --brand-inset: 0px;
+  }
+}

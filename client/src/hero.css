@@ -1,0 +1,477 @@
+/* ===== Hero + left panel =====
+   Layer order (bottom -> top):
+   .h-bg      z-0    page background #efefef
+   .h-header  z-2    logo (z-1) + photo (z-2) + cards/links/panel (z-3/4)
+                    -> jumps to z-100 at 53% scroll so the panel stays
+                       above the page sections
+   .h-main    z-20   heading, side texts, traits card (+ every page section) */
+
+.hero-root {
+  --teal: #00a896;
+  --ink: #1a1a1a;
+  --bg: #efefef;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* page background — bottom layer, never re-stacked */
+.h-bg { background: var(--bg); }
+
+/* ===== page-load intro, stage 0 =====
+   The intro opens on an empty #efefef screen. This stylesheet is parsed before
+   React mounts, so everything the intro animates is hidden HERE rather than from
+   JS — otherwise the finished hero would be painted for one frame before
+   useLayoutEffect ever runs. The logo letters need the same treatment for a
+   second reason: the word is live text, so the fallback font must never be on
+   screen while Archivo is still loading. */
+.h-in, .h-heading-line, .h-photo, .h-logo-letter { opacity: 0; visibility: hidden; }
+
+/* photo: bottom centred, 93vh, scaled 1.15 and pushed 6vh down.
+   (size/position live as Tailwind classes on the <img>, only the
+   transform belongs here so GSAP never fights it)
+   93vh + this transform puts the top of the head at ~7vh: the box is bottom
+   anchored, scale(1.15) lifts the top edge by 6.5vh and translateY pushes it
+   back down, so 7 - 6.5 + 6 = 6.5vh + the 1% empty band on the image. */
+.h-photo-img { transform: translateY(6vh) scale(1.15); will-change: filter, opacity; backface-visibility: hidden; }
+
+/* heading — white on the photo, weight 700 (800 read too heavy at 6vw) */
+.h-heading {
+  font-size: 6vw; line-height: 0.98; font-weight: 700; letter-spacing: -0.03em;
+  color: #fff; margin: 0;
+}
+.h-side-text { font-size: 1vw; line-height: 1.35; font-weight: 500; margin: 0; }
+
+/* the year count in the portrait stat card — plain numeral, no border and no
+   background. Inherits the card's teal. Re-scaled by fitStatInner on scroll. */
+.h-num {
+  display: block;
+  font-size: 3.2vw; font-weight: 800; line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+/* skills card — fixed narrow column, so the long title wraps and the card
+   ends up taller than it is wide */
+.glass-card {
+  display: flex; flex-direction: column;
+  gap: 0.75vw;
+  padding: 1.1vw 1.25vw;
+  width: 10vw;
+  border-radius: 1.15vw;
+  font-size: 0.8vw;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(0,168,150,0.45) 0%, rgba(0,168,150,0.18) 100%);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.45);
+  box-shadow: 0 10px 35px rgba(0,168,150,0.25), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(255,255,255,0.1);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.glass-card:hover {
+  background: linear-gradient(135deg, rgba(0,168,150,0.55) 0%, rgba(0,168,150,0.25) 100%);
+  transform: translateY(-4px);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-card {
+    background: rgba(0,168,150,0.75);
+  }
+}
+
+.h-traits {
+  /* keep legacy class name for compatibility, reuse glass-card styles */
+}
+.h-traits-title {
+  margin: 0 0 0.35vw; font-size: 0.95vw; font-weight: 800;
+  letter-spacing: -0.02em; line-height: 1.15; color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+.h-mark {
+  font-style: normal; font-size: 0.85vw; line-height: 1; color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 0.75vw; flex: none;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.35));
+}
+
+/* menu labels — panel only, there is no hero copy to fly in */
+.h-nav-label {
+  font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.3px; white-space: nowrap; line-height: 1;
+  font-size: 15px; color: #111; transition: color .25s ease;
+}
+
+/* stat cards — fully transparent, no fill, no border. They sit straight on the
+   photo in the hero and on the panel's grey block once they land, so the label
+   is the only thing that changes colour (white -> black in the scroll tween).
+   The two boxes are deliberately different shapes — landscape for projects,
+   portrait for years — and each panel slot mirrors the hero card's aspect, so
+   the width-based fly scale lands both at exactly the right size. */
+.h-stat {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.5vw;
+  padding: 1.1vw 1.25vw;
+  color: #fff;
+  background: rgba(20, 20, 20, 0.45);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 1vw;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.h-stat:hover {
+  background: rgba(20, 20, 20, 0.6);
+  transform: translateY(-4px);
+}
+.h-stat-text {
+  margin: 0; font-size: 1vw; font-weight: 700; line-height: 1.1;
+  color: #fff; text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.h-stat-text .h-num,
+.h-stat-text strong,
+.h-num {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 2vw;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== .info-card — the one surface shared by all three hero cards (the skills
+   box and both stats).
+
+   Declared AFTER .glass-card and .h-stat on purpose. Same specificity, so
+   source order is what swaps their teal gradients / dark fills for this one,
+   and nothing above has to be rewritten or de-duplicated.
+
+   Sizes are deliberately NOT touched here: every card's width, height and
+   position is a Tailwind vw utility on the element itself, and the scroll fly
+   measures those rects to land the cards in the panel — so this block only
+   ever paints the surface.
+
+   padding / gap are the 20px, 24px and 12px of the design, written in vw. The
+   whole hero is a 1920px vw design (see the media query below), where
+   1.04vw / 1.25vw / 0.625vw ARE 20 / 24 / 12px — so it matches the reference
+   exactly and stays proportional at every other width instead of snapping to a
+   different ratio on a 2560px screen. */
+.info-card {
+  background: rgba(214, 210, 203, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  padding: 1.04vw 1.25vw;
+  gap: 0.625vw;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.info-card:hover {
+  background: rgba(214, 210, 203, 0.9);
+  transform: translateY(-3px);
+}
+
+/* no backdrop-filter (older Safari / Firefox): 0.82 alpha on its own would let
+   the photo show straight through, so fall back to a nearly solid fill */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .info-card { background: rgba(214, 210, 203, 0.96); }
+}
+
+/* teal accents — the numerals, the bullet glyphs and the React mark (its SVG
+   paints with currentColor, so colour is enough). Teal on the warm greige is
+   what carries the accent now that the fill no longer does it. */
+.info-card .h-num,
+.info-card .h-mark,
+.info-card .h-stat-icon {
+  color: var(--teal);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+.info-card .h-mark { filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.18)); }
+
+/* the lightning stays the one warm accent in the card, so it does not read as
+   just another teal bullet. Dark enough to hold 3:1 against the greige. */
+.info-card .h-mark-accent { color: #b45309; }
+
+/* ===== the years card, re-fitted around a display numeral =====
+
+   Every value below is the px value from the design spec (72 / 14 / 8 / 18 16 /
+   170) converted to vw against this hero's 1920px basis, because the whole hero
+   is sized in vw and fitStatInner re-tweens these in vw on scroll — hard px
+   would freeze this card's proportions at one width and break the panel landing.
+
+   The card's OUTER box is untouched: still w-[7vw] h-[9vw] at left-[68.5vw]
+   top-[75vh], still the 0.78:1 aspect the panel slot mirrors. 9vw IS 172.8px,
+   so the 170px min-height is already satisfied — it stays as a floor in case the
+   padding or gap below is ever loosened. */
+.h-stat-years {
+  padding: 0.9375vw 0.833vw;
+  gap: 0.417vw;
+  /* the actual overflow fix: "Experience" is one unbreakable word, so it used to
+     paint straight out through the right edge and into the side paragraph. The
+     label now fits (see below) and this is the belt-and-braces — it also makes
+     border-radius clip the children, which it could not do while they spilled. */
+  overflow: hidden;
+  min-height: 8.854vw;
+}
+
+/* 72px Syne ExtraBold, teal gradient clipped to the glyph.
+   color + text-fill are both declared: -webkit-text-fill-color wins over color,
+   so on the (unlikely) engine without background-clip: text the `color` line is
+   what still shows a teal 3 instead of an invisible one. */
+.info-card .h-stat-years-num {
+  font-family: "Syne", "Bricolage Grotesque", "Archivo Variable", "Inter", sans-serif;
+  font-weight: 800;
+  font-size: 3.75vw;
+  line-height: 0.9;
+  letter-spacing: -0.104vw;
+  color: #00a896;
+  text-shadow: none;
+  background: linear-gradient(135deg, #00c9b1 0%, #007f73 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 14px / 700 / 1.2, centred. max-width: 100% + normal wrapping is what keeps
+   "Experience" inside the 102px of inner width at 1920px — it needs ~77px — and
+   white-space: normal is explicit because nothing else here sets it. */
+.info-card .h-stat-years .h-stat-text {
+  font-size: 0.729vw;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* .h-stat-row — the landscape projects card runs its icon and text side by side
+   instead of stacked. .h-stat is a centred COLUMN, so this only flips the axis
+   and re-centres on the cross axis; the icon keeps its own width (6vw, on the
+   element as w-[6vw]) and the text keeps its own line break, which is what the
+   fitStatInner tween measures.
+
+   The icon is at its ceiling in a 13x7.8vw landscape card. Its viewBox is
+   23x20.463 (ratio 1.124), so 6vw wide is 5.34vw tall against the 5.72vw of
+   inner height — 7vw would already be 6.23vw and spill past the padding. Width:
+   icon 6vw + gap 0.6vw leaves 6.4vw, and "Projects" at 1vw bold needs ~3.75vw.
+   Overflow would need the icon to be shrunk or the card widened, not the gap. */
+.h-stat-row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6vw;
+}
+
+/* labels: white, weight 700. The numerals keep their 800 — they are the
+   display element of the card, not body copy. */
+.info-card .h-traits-title,
+.info-card .h-stat-text {
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+
+/* logo — teal letters on the hero, turns into a teal chip with dark letters
+   once it has landed (the background is tweened in, so it stays transparent
+   on load). The pill look comes from the spec: teal #00a896 surface, 10px
+   radius, 6px 14px padding, 20px/800 type — the pad is fixed px (the flying
+   element's width is tweened, its padding is not), so the wordmark inside
+   shrinks with the slot width and reads about 20px tall when it lands.
+   The family is "Archivo Variable" because that is what
+   @fontsource-variable/archivo registers. */
+.h-logo-fly {
+  display: inline-block;
+  color: var(--teal); border-radius: 10px; padding: 6px 14px;
+  font-family: "Archivo Variable", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  font-size: 20px; font-weight: 800; font-stretch: 125%;
+  font-variation-settings: "wdth" 125, "wght" 800;
+  text-transform: uppercase; letter-spacing: 1px; line-height: 1;
+}
+/* every letter is its own <g><text> now (SVG <tspan>s can't take transform or
+   clip-path). The svg must not clip the letters while they travel in from the
+   right, and the hidden text is only a ruler used by layoutLogo(). */
+.h-logo-svg { overflow: visible; }
+.h-logo-measure { visibility: hidden; pointer-events: none; }
+/* the ® sits at the top-right of the chip and appears with it */
+.h-reg {
+  position: absolute; top: -0.32vw; left: 100%; margin-left: -0.1vw;
+  font-size: 0.5vw; line-height: 1; font-weight: 700; color: #111;
+  opacity: 0; visibility: hidden;
+}
+
+/* buttons */
+.h-btn {
+  display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+  font-size: 1vw; font-weight: 700; border-radius: 0.6vw; padding: 1vw 1.8vw; white-space: nowrap;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+.h-btn:hover { transform: translateY(-2px); }
+.h-btn-main { background: var(--teal); color: #000; }
+/* GSAP owns the transform of the flying button, so no hover-lift there */
+.h-btn-fly { width: 10.5vw; padding-left: 1vw; padding-right: 1vw; }
+.h-btn-fly:hover { transform: none; }
+.h-btn-light { background: #d9d9d9; color: #000; }
+
+/* ===== left panel: a stack of separate blocks, no card behind everything =====
+   Every block starts hidden IN CSS (not only through GSAP), so nothing can
+   show up in the top-left corner on load. GSAP fades them in with `autoAlpha`:
+   the block surfaces at 30-38% of the hero scroll, their content at 34-42%. */
+.h-block {
+  border-radius: 0.8vw; background: rgba(200,200,200,.45);
+  backdrop-filter: blur(15px); flex: none;
+  opacity: 0; visibility: hidden;
+}
+.h-panel-fade { opacity: 0; visibility: hidden; }
+/* block 1 — LOGO + BIO CARD: fixed 150px min-height, content packed to the
+   top. The logo slot is measured live (fitWidthBox reads getBoundingClientRect),
+   so the flying wordmark still lands dead on the chip whatever this box does. */
+.h-panel > .h-block:first-child {
+  display: flex; flex-direction: column; justify-content: flex-start;
+  min-height: 150px; padding: 0.7vw 0.7vw;
+}
+/* bio text — 24px clear of the logo row above it */
+.h-panel > .h-block:first-child .h-panel-text {
+  margin: 24px 0 0;
+}
+.h-panel-text {
+  font-size: 12.5px; line-height: 1.6; color: #333; margin: 0;
+}
+/* LinkedIn box — 32x32, radius 8, light grey surface, dark "in" */
+.h-social {
+  width: 32px; height: 32px; border-radius: 8px; background: #f3f3f3; color: #333;
+  display: grid; place-items: center; font-weight: 800; font-size: 13px; text-decoration: none;
+  transition: background .3s, color .3s;
+}
+.h-social:hover { background: var(--teal); color: #000; }
+
+/* ===== block 2 — STATS CARD (static flat row) =====
+   The two hero stat cards dissolve on scroll; this panel row is the one that
+   stays. Equal flex columns split by a hairline divider, flat — no surface on
+   the items themselves. */
+.h-stats {
+  display: flex; align-items: center; justify-content: space-around;
+  gap: 12px; padding: 14px 12px;
+}
+.h-stat-item {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; flex: 1; min-width: 0;
+}
+.h-stat-num { font-size: 28px; font-weight: 800; line-height: 1; color: var(--teal); }
+.h-stat-label {
+  font-size: 12px; font-weight: 700; line-height: 1.2; color: #111;
+  text-align: center; white-space: nowrap;
+}
+.h-stat-divider { flex: none; width: 1px; height: 44px; background: rgba(0,0,0,0.12); }
+
+/* menu rows — the row IS the link. no per-row surface, only the current
+   section gets a teal pill */
+.h-nav-row {
+  display: flex; align-items: center; gap: 14px; padding: 8px 12px;
+  border-radius: 10px; width: fit-content; color: #111; text-decoration: none;
+  transition: background .25s ease;
+}
+.h-nav-icon {
+  flex: none; width: 18px; height: 18px; display: grid; place-items: center;
+  color: #111; transition: color .25s ease; opacity: 0; visibility: hidden; transform: scale(.2);
+}
+.h-nav-icon svg { width: 100%; height: 100%; display: block; }
+.h-nav-row:hover { background: rgba(0,168,150,0.15); }
+.h-nav-row.is-current { background: var(--teal); }
+.h-nav-row.is-current .h-nav-icon { color: #1a1a1a; }
+.h-nav-row.is-current .h-nav-label,
+.h-nav-row.is-current:hover .h-nav-label { color: #000; }
+.h-nav-row.is-current:hover { background: var(--teal); }
+
+/* marquee — the grey surface comes from .h-block. The track holds two identical
+   copies back to back and slides -50% (exactly one copy width), so the second
+   copy is always under the first and the loop has no gap. 40px sits between
+   every pair of items because each span carries 20px on both sides, and that
+   count holds across the two-copy seam too. */
+.h-marquee {
+  display: flex; overflow: hidden; padding: 10px 0; color: #333;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+.h-marquee-track {
+  display: flex; flex: none; width: max-content;
+  animation: h-marquee 20s linear infinite;
+}
+.h-marquee-group { display: flex; flex: none; }
+.h-marquee-group span { padding: 0 20px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+@keyframes h-marquee { to { transform: translateX(-50%); } }
+
+/* email row — the pill IS the button: light grey surface, copy icon far right */
+.h-email {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; cursor: pointer; border: 0; text-align: left;
+  background: #f3f3f3; border-radius: 10px; padding: 10px 14px;
+  transition: background .25s ease;
+}
+.h-email-text { font-size: 14px; font-weight: 500; color: #111; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.h-email:hover { background: #e8e8e8; }
+.h-email-copy { flex: none; width: 16px; height: 16px; color: #111; display: grid; place-items: center; }
+
+/* CTA button — full width teal, pinned to the panel bottom with mt-auto */
+.h-cta {
+  display: flex; align-items: center; justify-content: center; width: 100%;
+  padding: 14px; background: var(--teal); border-radius: 14px;
+  font-size: 18px; font-weight: 800; color: #111; border: 0; text-decoration: none;
+  margin-top: auto; cursor: pointer;
+  transition: transform .25s ease, background-color .25s ease;
+}
+.h-cta:hover { transform: translateY(-2px); background: #008f80; }
+
+/* the panel can scroll on short viewports; hide the scrollbar so the sidebar
+   never shows a visible track next to the cards */
+.h-panel { scrollbar-width: none; -ms-overflow-style: none; }
+.h-panel::-webkit-scrollbar { display: none; }
+
+/* hero Explore button that used to fly into the CTA slot — it now dissolves
+   with the rest of the hero content, so no dedicated slot is needed */
+
+/* ===== mobile: no sidebar =====
+   The panel is hidden below 768px (md:flex on the <aside>), so the phone gets
+   the static hero only — same as the pre-sidebar behaviour. The vw sizes are a
+   1920px design and would be unusable at ~56px on a 390px phone. */
+@media (max-width: 767px) {
+  .h-spacer { height: 100vh !important; }
+  .h-heading { font-size: 11vw; left: 6vw !important; top: 58vh !important; }
+  /* zoom is a transform, not a bigger height, so it costs no layout: the heading
+     at 58vh does not move. 1.1 is about the ceiling here — the render is already
+     ~98vw wide, and past ~1.1 the scale starts eating the cutout's sides
+     against .h-header's overflow clip */
+  .h-photo-img { height: 68vh; transform: scale(1.1); }
+  .h-side-text, .h-traits, .h-stat { display: none; }
+
+  /* JOHNSMITH drops from 10vh to 13vh so there is real padding above the word, and
+     it now clears the top of the photo (32vh) instead of sitting on it */
+  .h-logo-fly { left: 4vw !important; top: 13vh !important; width: 92vw !important; }
+
+  .h-cta-row { left: 6vw !important; top: 87vh !important; }
+  .h-btn { font-size: 3.6vw; padding: 3vw 5vw; }
+  .h-btn-fly { width: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .h-marquee-track { animation: none; }
+  /* nothing may be left invisible if the intro timeline is skipped: the intro
+     start states are the only thing hiding these, so reduced motion just has to
+     un-hide them. No transform: none here — the scroll fly owns the transforms
+     of .h-stat / .h-btn-fly and still has to work. */
+  .h-block, .h-panel-fade, .h-nav-icon,
+  .h-in, .h-heading-line, .h-photo, .h-logo-letter {
+    opacity: 1 !important; visibility: visible !important;
+  }
+  .h-block, .h-panel-fade, .h-nav-icon { transform: none !important; }
+}

@@ -1,0 +1,360 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap");
+
+/*
+  Left panel size: define these once globally (e.g. in index.css)
+  :root { --panel-w: 360px; --panel-gap: 24px; }
+  The fallbacks below are used when they are not defined.
+*/
+
+.what_you_get_section {
+  --green: #00a896;
+  --ink: #0b0b0b;
+  --chip: #e2e2e2;
+  --chip-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --chip-dur: 0.6s;
+  --chip-scale: 1;
+  --icon-scale: 1;
+  --logo-scale: 1;
+  --text-scale: 1;
+
+  position: relative;
+  padding: 10vw 0 12vw;
+  padding-left: calc(var(--panel-w, 360px) + var(--panel-gap, 24px));
+  background: transparent;
+  color: var(--ink);
+  font-family: "Neue Montreal", "Helvetica Now Display", "Inter Tight", Arial, sans-serif;
+  overflow-x: clip;
+}
+
+.what_you_get_section .container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 4vw;
+  box-sizing: border-box;
+}
+
+.what_you_get_section .column {
+  display: flex;
+  flex-direction: column;
+}
+.what_you_get_section .flex-center {
+  align-items: center;
+}
+.what_you_get_section .text-center {
+  text-align: center;
+}
+
+/* ---------- heading ---------- */
+.what_you_get_section .h2-style {
+  margin: 0;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  background: linear-gradient(266deg, #3d3d3d 11.86%, #1a1a1a 92.59%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.what_you_get_section .h2-big {
+  font-size: 12.4vw;
+  line-height: 0.9;
+  padding-bottom: 0.12em; /* keeps the gradient from clipping the descender of "g" */
+}
+
+/* ---------- label ---------- */
+.what_you_get_section .label {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 2.5vw 0 0;
+  padding: 0.3vw 0.6vw;
+  border: 2px solid #555;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 1.2vw;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ---------- paragraph ---------- */
+.what_you_get-text {
+  max-width: 60vw;
+  margin: 1.6vw auto 0;
+  font-size: 4.6vw;
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: #0b0b0b;
+}
+.what_you_get-word {
+  opacity: 1;
+}
+
+/* ---------- chips row ---------- */
+.capa-cards-wrap {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.1vw;
+  width: 100%;
+  min-height: 14vw;
+  margin: 3vw 0 0;
+  text-align: left;
+}
+
+.capa-card {
+  flex: none;
+  display: block;
+  min-width: 0;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.capa-card:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 0.2vw;
+}
+
+/* per chip sizes (desktop reference) */
+.capa-cards-wrap .capa-card[data-chip] {
+  --chip-h: 3.9vw;
+  --chip-open-w: 17.7vw;
+  --chip-open-h: 13.8vw;
+}
+.capa-cards-wrap .capa-card[data-chip="react"] {
+  --chip-w: calc(8vw * var(--chip-scale));
+  --icon-h: calc(1.8vw * var(--icon-scale));
+}
+.capa-cards-wrap .capa-card[data-chip="integrations"] {
+  --chip-w: calc(6.5vw * var(--chip-scale));
+  --icon-h: calc(2.1vw * var(--icon-scale));
+}
+.capa-cards-wrap .capa-card[data-chip="seo"] {
+  --chip-w: calc(6.8vw * var(--chip-scale));
+  --icon-h: calc(2.1vw * var(--icon-scale));
+}
+.capa-cards-wrap .capa-card[data-chip="motion"] {
+  --chip-w: calc(6.5vw * var(--chip-scale));
+  --icon-h: calc(2.2vw * var(--icon-scale));
+  --chip-open-w: 19vw;
+}
+.capa-cards-wrap .capa-card[data-chip="performance"] {
+  --chip-w: calc(7vw * var(--chip-scale));
+  --icon-h: calc(2.1vw * var(--icon-scale));
+}
+
+/* ---------- chip body ---------- */
+.capa-card-item {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: var(--chip-w);
+  height: var(--chip-h);
+  padding: calc(0.85vw * var(--chip-scale));
+  border-radius: calc(0.8vw * var(--chip-scale));
+  background: var(--chip);
+  color: var(--ink);
+  overflow: hidden;
+  transition: width var(--chip-dur) var(--chip-ease), height var(--chip-dur) var(--chip-ease);
+}
+
+.capa-card-top-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.4vw;
+}
+
+/* icons */
+.capa-card-top-item > svg {
+  flex: none;
+  display: block;
+  width: auto;
+  height: var(--icon-h);
+  color: var(--green);
+  transform-origin: left top;
+  transition: transform var(--chip-dur) var(--chip-ease);
+}
+/* the GSAP chip only reveals the "G" while closed, the full logo when open */
+.capa-gsap-icon {
+  flex: none;
+  display: block;
+  width: calc(1.76vw * var(--logo-scale));
+  height: var(--icon-h);
+  overflow: hidden;
+  transition: width var(--chip-dur) var(--chip-ease);
+}
+.capa-gsap-icon .gsap-icon {
+  display: block;
+  width: calc(6vw * var(--logo-scale));
+  height: 100%;
+  color: var(--green);
+}
+
+/* arrow */
+.capa-card-arrow-wrap {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green);
+}
+.capa-card-arrow {
+  display: block;
+  width: calc(0.8vw * var(--icon-scale));
+  height: auto;
+  transition: transform var(--chip-dur) var(--chip-ease);
+}
+
+/* chip text */
+.capa-card-bottom {
+  opacity: 0;
+  transform: translateY(calc(0.7vw * var(--text-scale)));
+  transition: opacity 0.5s var(--chip-ease) 0.15s, transform 0.5s var(--chip-ease) 0.15s;
+}
+.capa-card-heading {
+  margin: 0 0 calc(0.4vw * var(--text-scale));
+  font-size: calc(1.5vw * var(--text-scale));
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0b0b0b;
+}
+.capa-card-text {
+  margin: 0;
+  font-size: calc(1.25vw * var(--text-scale));
+  line-height: 1.35;
+  color: #333;
+}
+
+/* ---------- open state: tap (touch) or keyboard focus ---------- */
+.capa-card:is(.is-open, :focus-within) .capa-card-item {
+  width: var(--chip-open-w);
+  height: var(--chip-open-h);
+}
+.capa-card:is(.is-open, :focus-within) .capa-card-top-item > svg {
+  transform: scale(1.4);
+}
+.capa-card:is(.is-open, :focus-within) .capa-gsap-icon {
+  width: calc(6vw * var(--logo-scale));
+}
+.capa-card:is(.is-open, :focus-within) .capa-card-arrow {
+  transform: rotate(180deg);
+}
+.capa-card:is(.is-open, :focus-within) .capa-card-bottom {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- open state: hover (pointer devices only) ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .capa-card:hover .capa-card-item {
+    width: var(--chip-open-w);
+    height: var(--chip-open-h);
+  }
+  .capa-card:hover .capa-card-top-item > svg {
+    transform: scale(1.4);
+  }
+  .capa-card:hover .capa-gsap-icon {
+    width: calc(6vw * var(--logo-scale));
+  }
+  .capa-card:hover .capa-card-arrow {
+    transform: rotate(180deg);
+  }
+  .capa-card:hover .capa-card-bottom {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (hover: none) {
+  .capa-card {
+    cursor: pointer;
+  }
+}
+
+/* ---------- reduced motion: no tweens, no scrub ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .capa-card-item,
+  .capa-card-top-item > svg,
+  .capa-gsap-icon,
+  .capa-card-arrow,
+  .capa-card-bottom {
+    transition: none;
+  }
+}
+
+/* ---------- tablet: the left panel collapses ---------- */
+@media (max-width: 991px) {
+  .what_you_get_section {
+    padding: 9vw 0 11vw;
+    padding-left: 0;
+  }
+  .what_you_get_section .h2-big {
+    font-size: 16vw;
+  }
+  .what_you_get_section .label {
+    font-size: 1.5vw;
+  }
+  .what_you_get-text {
+    max-width: 85vw;
+    font-size: 6vw;
+  }
+  .capa-cards-wrap {
+    --chip-scale: 1.35;
+    --icon-scale: 1.35;
+    --logo-scale: 1.35;
+    --text-scale: 1.6;
+    flex-wrap: wrap;
+    gap: 1vw;
+    min-height: 20vw;
+    margin-top: 4vw;
+  }
+  .capa-cards-wrap .capa-card[data-chip] {
+    --chip-h: 5.2vw;
+    --chip-open-w: 30vw;
+    --chip-open-h: 19vw;
+  }
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 767px) {
+  .what_you_get_section {
+    padding: 12vw 0 14vw;
+  }
+  .what_you_get_section .h2-big {
+    font-size: 22vw;
+  }
+  .what_you_get_section .label {
+    margin-top: 3vw;
+    font-size: 2.4vw;
+    padding: 0.6vw 1.2vw;
+  }
+  .what_you_get-text {
+    max-width: 85vw;
+    font-size: 8.5vw;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  .capa-cards-wrap {
+    --chip-scale: 2.6;
+    --icon-scale: 2.4;
+    --logo-scale: 2.4;
+    --text-scale: 3.6;
+    flex-wrap: wrap;
+    gap: 2vw;
+    min-height: 28vw;
+    margin-top: 5vw;
+  }
+  .capa-cards-wrap .capa-card[data-chip] {
+    --chip-h: 12vw;
+    --chip-open-w: 85vw;
+    --chip-open-h: 26vw;
+  }
+}
+

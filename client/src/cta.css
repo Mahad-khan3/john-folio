@@ -1,0 +1,304 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800;900&display=swap");
+
+.cta_section {
+  --cta-font: "Neue Montreal", "Helvetica Now Display", "Inter Tight", Helvetica,
+    Arial, sans-serif;
+  --green: #00a896;
+  --green-dark: #00907f;
+
+  /* ===== LEFT PANEL SIZE (kept in sync with about.css) ===== */
+  --panel-w: 360px;
+  --panel-gap: 24px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  /* vertical rhythm is capped in vh so the whole block always fits one screen */
+  padding: clamp(40px, 7vh, 100px) 0;
+  padding-left: calc(var(--panel-w, 360px) + var(--panel-gap, 24px));
+  background: transparent;
+  color: #1a1a1a;
+  font-family: var(--cta-font);
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cta_section .container {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 clamp(16px, 2.5vw, 40px);
+  box-sizing: border-box;
+}
+
+/* everything stays inside the free area, never under the fixed panel */
+.cta_section .column.cta-column {
+  max-width: 70vw;
+}
+
+/* ---------- heading ---------- */
+.cta_section .cta_heading {
+  margin: 0;
+  font-family: var(--cta-font);
+  font-size: clamp(38px, min(8.4vw, 12.4vh), 132px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-align: left;
+  color: #1a1a1a;
+}
+
+.cta_section .cta_heading .cta-line,
+.cta_section .cta-span-heading {
+  display: block;
+}
+
+/* the faded last word */
+.cta_section .cta-span-heading {
+  color: #ececec;
+  background: linear-gradient(180deg, #f7f7f7 0%, #ececec 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* SplitText line masks clip at the line box, and line-height 0.95 is tighter than
+   the glyph box — give the mask a little room without moving the layout */
+.cta_section .cta-line-mask,
+.cta_section .cta-span-heading-mask {
+  padding: 0.06em 0 0.12em;
+  margin: -0.06em 0 -0.12em;
+}
+
+/* ---------- paragraph ---------- */
+.cta_section .cta_paragraph {
+  max-width: clamp(280px, 29vw, 460px);
+  margin: clamp(14px, 2.2vh, 34px) 0 clamp(16px, 2.8vh, 44px);
+  font-family: var(--cta-font);
+  font-size: clamp(14px, min(1.4vw, 2.3vh), 22px);
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: 0;
+  color: #222;
+}
+
+/* ---------- chat block ---------- */
+.cta_section .cta_chat {
+  width: 100%;
+}
+
+.cta_section .cta_chat_row {
+  display: flex;
+  align-items: flex-end;
+  gap: min(1.2vw, 2vh);
+}
+
+.cta_section .cta_photo {
+  flex: none;
+  width: clamp(32px, min(3.6vw, 5.8vh), 56px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 0.7vw;
+}
+
+.cta_section .cta_bubble_col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(8px, min(0.9vw, 1.5vh), 16px);
+}
+
+.cta_section .cta-chat-bubble {
+  padding: min(0.9vw, 1.5vh) min(1.6vw, 2.6vh);
+  border-radius: 0.9vw;
+  background: #e2e2e2;
+  font-family: var(--cta-font);
+  font-size: clamp(13px, min(1.4vw, 2.3vh), 22px);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: #222;
+}
+
+/* ---------- typing indicator ---------- */
+.cta_section .cta-chat-typing-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4vw;
+  padding: min(1.2vw, 2vh) min(1.4vw, 2.3vh);
+  border-radius: 0.9vw;
+  background: #e2e2e2;
+}
+
+.cta_section .cta-typing-dot {
+  width: clamp(4px, 0.5vw, 8px);
+  height: clamp(4px, 0.5vw, 8px);
+  border-radius: 999px;
+  background: #888;
+  animation: cta-typing-bounce 1s infinite ease-in-out;
+}
+
+.cta_section .cta-typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.cta_section .cta-typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes cta-typing-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  30% {
+    transform: translateY(-0.35vw);
+    opacity: 1;
+  }
+}
+
+/* ---------- button ---------- */
+.cta_section .cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: min(1vw, 1.7vh) min(3.2vw, 5.4vh);
+  border: 0;
+  border-radius: 0.8vw;
+  background: var(--green);
+  font-family: var(--cta-font);
+  font-size: clamp(13px, min(1.4vw, 2.3vh), 22px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-decoration: none;
+  color: #000;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta_section .cta-button-icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex: 0 0 auto;
+  display: block;
+}
+
+.cta_section .cta-button:hover {
+  background: var(--green-dark);
+  transform: translateY(-2px);
+}
+
+/* ---------- tablet ---------- */
+@media (max-width: 991px) {
+  .cta_section {
+    padding: clamp(40px, 7vh, 90px) 0;
+    padding-left: 0;
+  }
+
+  .cta_section .column.cta-column {
+    max-width: 60vw;
+  }
+
+  .cta_section .cta_heading {
+    font-size: clamp(38px, min(11.4vw, 12vh), 84px);
+  }
+
+  .cta_section .cta_paragraph {
+    max-width: 60vw;
+    font-size: clamp(14px, min(2.4vw, 2.6vh), 22px);
+    margin: clamp(14px, 2.2vh, 30px) 0 clamp(16px, 2.8vh, 38px);
+  }
+
+  .cta_section .cta_chat_row {
+    gap: min(2.4vw, 3vh);
+  }
+
+  .cta_section .cta_photo {
+    width: clamp(38px, min(7vw, 9vh), 64px);
+    border-radius: 1.4vw;
+  }
+
+  .cta_section .cta-chat-bubble {
+    font-size: clamp(13px, min(2.4vw, 2.6vh), 22px);
+    padding: 1.8vw 3vw;
+    border-radius: 1.8vw;
+  }
+
+  .cta_section .cta-chat-typing-wrap {
+    padding: 2.4vw 2.8vw;
+    border-radius: 1.8vw;
+    gap: 0.8vw;
+  }
+
+  .cta_section .cta-button {
+    font-size: clamp(13px, min(2.4vw, 2.6vh), 22px);
+    padding: 2vw 6vw;
+    border-radius: 1.6vw;
+  }
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 767px) {
+  .cta_section {
+    padding: clamp(48px, 8vh, 90px) 0;
+  }
+
+  .cta_section .column.cta-column {
+    max-width: 100%;
+  }
+
+  .cta_section .cta_heading {
+    font-size: clamp(30px, min(14vw, 8.6vh), 60px);
+  }
+
+  .cta_section .cta_paragraph {
+    max-width: 100%;
+    font-size: clamp(15px, min(4vw, 2.6vh), 20px);
+    margin: clamp(16px, 2.6vh, 32px) 0 clamp(20px, 3.4vh, 40px);
+  }
+
+  .cta_section .cta_chat_row {
+    gap: 4vw;
+    align-items: flex-end;
+  }
+
+  .cta_section .cta_photo {
+    width: clamp(40px, 12vw, 64px);
+    border-radius: 2.4vw;
+  }
+
+  .cta_section .cta_bubble_col {
+    width: 100%;
+    gap: 3vw;
+  }
+
+  .cta_section .cta-chat-bubble {
+    font-size: clamp(15px, 4vw, 20px);
+    padding: 3vw 5vw;
+    border-radius: 3vw;
+  }
+
+  .cta_section .cta-chat-typing-wrap {
+    padding: 4vw 4.5vw;
+    border-radius: 3vw;
+    gap: 1.4vw;
+  }
+
+  .cta_section .cta-button {
+    width: 100%;
+    font-size: clamp(15px, 4vw, 20px);
+    padding: 4vw 6vw;
+    border-radius: 2.6vw;
+    text-align: center;
+  }
+}

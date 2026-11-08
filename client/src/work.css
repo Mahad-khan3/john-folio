@@ -1,0 +1,133 @@
+/* About -> Work pinned sequence
+   .pin-wrap pins for (100vh + track overflow); .about-last holds the frozen
+   About last screen while .work slides in from the right over it, then the
+   project track scrolls horizontally until the last card, then it releases. */
+
+.pin-wrap {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.about-last {
+  --panel-w: 360px;   /* sidebar ki width (hero panel) */
+  --panel-gap: 24px;  /* sidebar aur content ke beech gap */
+  --green: #1cb98c;
+  --ink: #111;
+  --card: #e7e7e6;
+
+  position: absolute;
+  inset: 0;
+  height: 100vh;
+  z-index: 1;
+  background: #fff;
+  color: #111;
+  font-family: "Inter Tight", system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  padding-left: calc(var(--panel-w) + var(--panel-gap));
+  padding-right: clamp(16px, 4vw, 64px);
+  overflow: hidden;
+}
+
+.about-last-inner {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.about-last .about-card {
+  flex: none;
+  max-width: 680px;
+  background: #e7e7e6;
+}
+
+.about-last .about-card-year {
+  font-size: clamp(72px, 9vw, 128px);
+}
+
+.about-last .about-card-heading {
+  font-size: clamp(26px, 3vw, 46px);
+  max-width: 11em;
+}
+
+.about-last .op80 {
+  font-size: clamp(15px, 1.4vw, 19px);
+  line-height: 1.5;
+  max-width: 34em;
+  color: #333;
+}
+
+.about-last .about-card-bottom-layout {
+  margin-top: 32px;
+}
+
+.about-last .about-card-bottom-text {
+  font-size: 13px;
+}
+
+.work {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.work-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 40px 0 48px;
+}
+
+@media (min-width: 1024px) {
+  .work-inner {
+    justify-content: center;
+    padding: 48px 0;
+  }
+}
+
+.track {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+  padding: 0 8vw;
+  width: max-content;
+  will-change: transform;
+}
+
+@media (min-width: 1024px) {
+  .track {
+    padding-left: 380px;
+    padding-right: 64px;
+  }
+}
+
+.card {
+  flex: 0 0 min(70vw, 520px);
+}
+
+@media (max-width: 991px) {
+  .about-last {
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: center;
+  }
+  .about-last-inner {
+    max-width: 560px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-last .about-card-year {
+    font-size: 60px;
+  }
+  .about-last .about-card-heading {
+    font-size: 22px;
+  }
+}

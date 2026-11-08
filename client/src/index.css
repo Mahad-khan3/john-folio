@@ -1,0 +1,32 @@
+@import "tailwindcss";
+/* hero.css asks for "Inter" as the first family. Without this import it fell
+   back to Helvetica/Arial, where every weight above 700 collapses into the same
+   synthetic bold — so font-weight 800 and 900 looked identical. The variable
+   wght axis is what makes the heavy weights actually render. */
+@import "@fontsource-variable/inter/wght.css";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.menu-in {
+  transform-origin: top center;
+  animation: menu-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+

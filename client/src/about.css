@@ -1,0 +1,476 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Archivo:wdth,wght@100..125,100..900&display=swap");
+
+.about-section {
+  --green: #1cb98c;
+  --green-2: #00a896;
+  --ink: #111;
+  --card: #e7e7e6;
+
+  /* ===== LEFT PANEL SIZE: apni sidebar ki width yahan set karo ===== */
+  --panel-w: 360px;   /* sidebar ki width */
+  --panel-gap: 24px;  /* sidebar aur content ke beech gap */
+
+  position: relative;
+  padding: 120px 0 160px;
+  padding-left: calc(var(--panel-w) + var(--panel-gap));
+  background: transparent;
+  color: var(--ink);
+  font-family: "Inter Tight", system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+.about-section .container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 2.5vw, 40px);
+  box-sizing: border-box;
+}
+
+/* ---------- heading block ---------- */
+.about-section .column {
+  margin-bottom: 90px;
+}
+
+.about-section .label {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 5px 9px;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.about-section .h2-style {
+  margin: 0;
+  font-size: clamp(40px, 4.2vw, 68px);
+  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.about-section .margin-bottom-s {
+  margin-bottom: 22px;
+}
+
+.about-section .max-width-389 {
+  max-width: 389px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.about-section .op80 {
+  opacity: 0.8;
+}
+.about-section .op-0 {
+  opacity: 0;
+}
+
+/* ---------- layout ---------- */
+.about-wrap {
+  position: relative;
+}
+
+.about-card-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1118 / 1520;
+}
+
+.about-card-wrap {
+  display: flex;
+  align-items: stretch;
+  width: 40%;
+  min-width: 280px;
+  max-width: 580px;
+}
+
+/* first card sits above the container, pinned to the right */
+.about-card-wrap.ac-1 {
+  margin-left: auto;
+  margin-right: 0.6%;
+}
+
+/* other cards: absolute, their bottom corner sits on the timeline dot */
+.about-card-container .about-card-wrap {
+  position: absolute;
+  z-index: 2;
+}
+.about-card-container .about-card-wrap[data-origin="bottom left"] {
+  transform: translate(0, -100%);
+}
+.about-card-container .about-card-wrap[data-origin="bottom right"] {
+  transform: translate(-100%, -100%);
+}
+.about-card-container .ac-2 { left: 16.64%; top: 22.47%; }
+.about-card-container .ac-3 { left: 9.4%;   top: 48.65%; }
+.about-card-container .ac-4 { left: 89.27%; top: 71.88%; }
+.about-card-container .ac-5 { left: 52.06%; top: 97.53%; }
+
+.about-card-wrap.is-open {
+  z-index: 30;
+}
+
+/* ---------- card ---------- */
+.about-card {
+  position: relative;
+  flex: 1;
+  padding: clamp(18px, 2vw, 26px) clamp(18px, 2vw, 30px) clamp(18px, 2vw, 28px);
+  background: var(--card);
+  border-radius: 16px;
+}
+
+.about-card-year {
+  margin: 0 0 12px;
+  color: var(--green);
+  font-family: "Archivo", sans-serif;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+  font-weight: 800;
+  font-size: clamp(44px, 4vw, 64px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.about-card-year span {
+  display: inline-block;
+}
+
+.about-card-heading {
+  margin: 0 0 8px;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.about-card > p.op80 {
+  margin: 0;
+  font-size: clamp(14px, 1.25vw, 18px);
+  line-height: 1.45;
+  color: #333;
+}
+
+.about-card-bottom-layout {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.about-card-bottom-layout-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.about-card-bottom-layout-left .about-card-img-wrap {
+  position: relative;
+  width: 48px;
+  flex: none;
+}
+.about-card-bottom-layout-left .about-card-img {
+  display: block;
+  width: 100%;
+}
+.last-year-active-dot {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 2px solid var(--card);
+}
+.about-card-bottom-text {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.25;
+  color: #555;
+}
+
+.about-card-button {
+  appearance: none;
+  cursor: pointer;
+  padding: 10px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: #f4f4f3;
+  color: var(--ink);
+  font: inherit;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.about-card-button .paragraph {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+.about-card-button:hover {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+/* ---------- side line next to each card ---------- */
+.about-card-point-wrap {
+  position: relative;
+  flex: none;
+  width: 16px;
+}
+.about-card-point-line-wrap {
+  position: absolute;
+  top: 0;
+  bottom: 10px;
+  width: 1px;
+}
+.about-card-wrap[data-origin="bottom left"] .about-card-point-line-wrap {
+  left: 0;
+}
+.about-card-wrap[data-origin="bottom right"] .about-card-point-line-wrap {
+  right: 0;
+}
+.about-card-point-line {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.15));
+}
+.about-card-point-circle {
+  display: none; /* the real dot is drawn by the SVG timeline */
+}
+
+/* ---------- timeline svg ---------- */
+.about-timeline-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.about-timeline-overflow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* fallback: visible even if JS is late. GSAP sets 0% then scrubs it on scroll */
+  overflow: hidden;
+}
+.about-timeline,
+.about-timeline-position {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--ink);
+}
+.about-timeline-position {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mobile-timeline-wrap {
+  display: none;
+}
+
+/* ---------- popup ---------- */
+.popup-card-wrap {
+  position: absolute;
+  top: 0;
+  z-index: 40;
+  width: clamp(300px, 38vw, 580px);
+  max-width: calc(100vw - var(--panel-w) - var(--panel-gap) - 32px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s linear 0.5s;
+}
+.about-card-wrap[data-origin="bottom right"] .popup-card-wrap {
+  right: 0;
+  transform-origin: bottom right;
+}
+.about-card-wrap[data-origin="bottom left"] .popup-card-wrap {
+  left: 0;
+  transform-origin: bottom left;
+}
+.about-card-wrap.is-open .popup-card-wrap {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+  transition-delay: 0s;
+}
+
+.popup-card {
+  padding: 26px 30px 34px;
+  border-radius: 26px;
+  color: #fff;
+  background: linear-gradient(180deg, #363636 0%, #232323 100%);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+.popup-card-top-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.popup-card-top-item > div:first-child {
+  font-family: "Archivo", sans-serif;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #1fc48c 0%, #c9f26a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.popup-close {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.35s ease;
+}
+.popup-close:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: rotate(90deg);
+}
+.popup-close-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+}
+.popup-close-path-1,
+.popup-close-path-2 {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  border-radius: 2px;
+  background: #fff;
+}
+.popup-close-path-1 { transform: translateY(-50%) rotate(45deg); }
+.popup-close-path-2 { transform: translateY(-50%) rotate(-45deg); }
+
+.popup-card-bottom-item {
+  margin-top: 56px;
+}
+.popup-card .about-card-img-wrap .about-card-img {
+  display: block;
+  width: 72px;
+  margin-bottom: 18px;
+}
+.popup-heading {
+  margin: 0 0 14px;
+  font-size: 36px;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  max-width: 9em;
+}
+.popup-card-bottom-item p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* ---------- tablet / mobile ---------- */
+@media (max-width: 991px) {
+  .about-section {
+    padding: 80px 0 100px;
+    padding-left: 0;
+  }
+  .about-section .container {
+    padding: 0 20px;
+  }
+  .about-section .column {
+    margin-bottom: 48px;
+  }
+
+  .about-wrap {
+    padding-left: 32px;
+  }
+  .about-card-container {
+    aspect-ratio: auto;
+  }
+  .about-timeline-wrap {
+    display: none;
+  }
+  .mobile-timeline-wrap {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 15px;
+    color: var(--ink);
+  }
+  .mobile-timeline-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .about-card-wrap,
+  .about-card-container .about-card-wrap,
+  .about-card-container .about-card-wrap[data-origin] {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0 0 20px;
+    transform: none;
+  }
+  .about-card-point-wrap {
+    display: none;
+  }
+  .about-card-year {
+    font-size: 48px;
+  }
+
+  .popup-card-wrap,
+  .about-card-wrap[data-origin] .popup-card-wrap {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    width: calc(100vw - 32px);
+    max-width: 520px;
+    /* override desktop max-width rule */
+    transform: translate(-50%, -50%) scale(0.9);
+    transform-origin: center;
+  }
+  .about-card-wrap.is-open .popup-card-wrap {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .popup-card-top-item > div:first-child {
+    font-size: 48px;
+  }
+  .popup-card-bottom-item {
+    margin-top: 32px;
+  }
+  .popup-heading {
+    font-size: 30px;
+  }
+}
