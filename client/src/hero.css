@@ -35,10 +35,10 @@
    back down, so 7 - 6.5 + 6 = 6.5vh + the 1% empty band on the image. */
 .h-photo-img { transform: translateY(6vh) scale(1.15); will-change: filter, opacity; backface-visibility: hidden; }
 
-/* heading — white on the photo, weight 700 (800 read too heavy at 6vw) */
+/* heading — dark ink on the page background, weight 700 (800 read too heavy at 6vw) */
 .h-heading {
   font-size: 6vw; line-height: 0.98; font-weight: 700; letter-spacing: -0.03em;
-  color: #fff; margin: 0;
+  color: var(--ink); margin: 0;
 }
 .h-side-text { font-size: 1vw; line-height: 1.35; font-weight: 500; margin: 0; }
 

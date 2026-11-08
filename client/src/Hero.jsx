@@ -9,8 +9,7 @@ import "./hero.css";
 // npm i gsap   (Tailwind CSS must already be set up in your project)
 gsap.registerPlugin(ScrollTrigger);
 
-// set your image path here
-const PHOTO = "/photo.avif";
+// hero photo removed — no image is rendered in the hero section
 
 const EMAIL = "johnsmith@gmail.com";
 const MAIL = EMAIL;
@@ -104,10 +103,7 @@ const CopyIcon = ({ ok }) => (
   </svg>
 );
 
-export default function Hero({
-  photo = PHOTO,          // set your image path here
-  photoMobile = PHOTO,    // set your image path here (mobile version)
-}) {
+export default function Hero() {
   const root = useRef(null);
   const copyTimer = useRef(0);
   const [copied, setCopied] = useState(false);
@@ -321,8 +317,9 @@ export default function Hero({
       const sp = (pctScroll) => pctScroll * D;
       const dur = (pctScroll) => pctScroll * D;
 
-      // photo blur + fade  (0 - 70%)
-      tl.to(".h-photo-img", { filter: "blur(90px)", opacity: 0.3, duration: 0.7 }, 0)
+      // photo blur + fade  (0 - 70%) — kept on the (now empty) wrapper so the
+      // timeline length and every other scroll position stay unchanged
+      tl.to(".h-photo", { filter: "blur(90px)", opacity: 0.3, duration: 0.7 }, 0)
         // hero-only texts slide up and are gone by 10% of the scroll — they
         // belong to the hero state only, the panel has its own copies
         .to(".h-side-text", { yPercent: -100, autoAlpha: 0, duration: dur(0.05) }, sp(0.05))
@@ -612,13 +609,9 @@ export default function Hero({
           <div className="h-logo-lift"><Logo /></div>
         </div>
 
-        {/* photo sits OVER the logo. 93vh + the .h-photo-img transform puts the
-            top of the head at ~7vh; the heading lives in .h-main at z-20, so
-            the photo (z-4) can never cover it */}
-        <div className="h-photo absolute inset-x-0 bottom-0 z-[4] flex justify-center">
-          <img src={photo} alt="Saif Ali" className="h-photo-img hidden sm:block h-[93vh] w-auto max-w-none object-contain object-bottom" />
-          <img src={photoMobile} alt="Saif Ali" className="h-photo-img block sm:hidden h-[93vh] w-auto max-w-none object-contain object-bottom" />
-        </div>
+        {/* hero photo removed (desktop + mobile) — wrapper kept empty so the
+            intro/scroll timelines keep their original timing */}
+        <div className="h-photo absolute inset-x-0 bottom-0 z-[4] flex justify-center" aria-hidden="true" />
 
 {/* ===== LEFT PANEL (end state) — always in layout (opacity only)
              so every slot below can be measured while it is there.
