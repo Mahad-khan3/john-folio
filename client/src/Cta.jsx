@@ -6,10 +6,6 @@ import "./cta.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-/* swap this one constant to change the photo */
-const PROFILE_IMAGE = "/mahadlast.png";
-const PROFILE_ALT = "Johnsmith";
-
 /* US placeholder number. wa.me needs the country code and no trunk prefix, so it
    is derived from the one number below rather than typed twice */
 const PHONE = "5551234567";
@@ -21,7 +17,6 @@ export default function Cta() {
   const headingRef = useRef(null);
   const paragraphRef = useRef(null);
   const chatRef = useRef(null);
-  const photoRef = useRef(null);
   const typingRef = useRef(null);
   const bubbleRef = useRef(null);
   const buttonRef = useRef(null);
@@ -81,11 +76,6 @@ export default function Cta() {
 
         chat
           .fromTo(
-            photoRef.current,
-            { autoAlpha: 0, scale: 0.6 },
-            { autoAlpha: 1, scale: 1, duration: 0.6, ease: "power2.out" }
-          )
-          .fromTo(
             typingRef.current,
             { autoAlpha: 0, scale: 0.9 },
             { autoAlpha: 1, scale: 1, duration: 0.25, ease: "power2.out" },
@@ -121,12 +111,6 @@ export default function Cta() {
     if (document.fonts?.ready) document.fonts.ready.then(refresh);
     window.addEventListener("load", refresh);
 
-    const img = photoRef.current;
-    if (img && !img.complete) {
-      img.addEventListener("load", refresh, { once: true });
-      img.addEventListener("error", refresh, { once: true });
-    }
-
     return () => {
       cancelled = true;
       window.removeEventListener("load", refresh);
@@ -151,8 +135,6 @@ export default function Cta() {
 
           <div className="cta_chat" ref={chatRef}>
             <div className="cta_chat_row">
-              <img className="cta_photo" ref={photoRef} src={PROFILE_IMAGE} alt={PROFILE_ALT} />
-
               <div className="cta_bubble_col">
                 <div className="cta-chat-typing-wrap" ref={typingRef} aria-hidden="true">
                   <span className="cta-typing-dot" />
